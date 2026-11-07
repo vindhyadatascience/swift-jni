@@ -1395,7 +1395,7 @@ extension String: JObjectProtocol, JConvertible {
                 fatalError("Could not get characters from String")
             }
             defer { jni.ReleaseStringUTFChars(env, obj, chars) }
-            if let str = String(validatingUTF8: chars) {
+            if let str = String(validatingCString: chars) {
                 return str
             }
             // "modified UTF-8" encodes characters outside the BMP as surrogate pairs, which are not valid UTF-8
@@ -1587,7 +1587,7 @@ extension JNI {
             }
         }
         let JAVA_HOME = getenv("JAVA_HOME")!
-        let javaHome = URL(fileURLWithPath: String(validatingUTF8: JAVA_HOME)!)
+        let javaHome = URL(fileURLWithPath: String(validatingCString: JAVA_HOME)!)
 
         let ext: String
         #if os(Windows)
